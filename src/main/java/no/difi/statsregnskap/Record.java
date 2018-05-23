@@ -63,6 +63,8 @@ public class Record {
     @Column(name = "\"Beløp\"", unique = false)
     private String periodamount;
     
+    private String uniqueIdentifier;
+    
     public Record() {
     	this.fagdep = "-1";
     	this.kap = "-1";
@@ -77,10 +79,11 @@ public class Record {
         this.year = "-1";
         this.period = "-1";
     	this.periodamount = ".000";
+    	this.uniqueIdentifier = "ABC";
     }
     
     public Record(String fagdep, String kap, String statskonto, String post, String artskonto, String orgnr,
-    		String regnskapsfører, String dep, String perioddate, String periodid, String year, String period, String periodamount) {
+    		String regnskapsfører, String dep, String perioddate, String periodid, String year, String period, String periodamount, String uniqueIdentifier) {
     	this.fagdep = fagdep;
     	this.kap = kap;
     	this.statskonto = statskonto;
@@ -94,6 +97,7 @@ public class Record {
         this.year = year;
         this.period = period;
     	this.periodamount = periodamount;
+    	this.uniqueIdentifier = uniqueIdentifier;
     }
     
 	public Record(String record) {
@@ -149,6 +153,10 @@ public class Record {
 
 	public String getPeriodamount() {
 		return periodamount;
+	}
+	
+	public String getUniqueIdentifier() {
+	    return uniqueIdentifier;
 	}
     
 }
