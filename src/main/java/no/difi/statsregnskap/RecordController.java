@@ -45,10 +45,10 @@ public class RecordController {
         for (int i = 0; i < l.size(); i++) {
             if (l.get(i).get("uniqueIdentifier") != null) {
                 // Uniquely identifies record
-                String unique = String.valueOf(l.get(i).get("uniqueIdentifier"));
+                String unique = l.get(i).get("uniqueIdentifier");
                 // Period, as month like 9
-                Integer period = Integer.parseInt(String.valueOf(l.get(i).get("period")));
-                String periodamount = String.valueOf(l.get(i).get("periodamount")).replace(',', '.');
+                Integer period = Integer.parseInt(l.get(i).get("period"));
+                String periodamount = l.get(i).get("periodamount").replace(',', '.');
                 //System.out.println(String.valueOf(l.get(i).get("uniqueIdentifier")) + ", "+ String.valueOf(l.get(i).get("periodamount")));
                 tAmount.put(unique, period, new Pair(new BigDecimal(periodamount)));
             }
@@ -67,12 +67,15 @@ public class RecordController {
 
         // Add YTD from guava table.
         for (int i = 0; i < l.size(); i++) {
+            // If we can identify the record uniquely.
             if (l.get(i).get("uniqueIdentifier") != null) {
-                String unique = String.valueOf(l.get(i).get("uniqueIdentifier")); // Uniquely identifies record
-                Integer period = Integer.parseInt(String.valueOf(l.get(i).get("period"))); // Period, as month like 9
+                String unique = l.get(i).get("uniqueIdentifier"); // Uniquely identifies record
+                Integer period = Integer.parseInt(l.get(i).get("period")); // Period, as month like 9
                 Pair p = tAmount.get(unique, period);
                 l.get(i).put("ytdamount", p.getYTDamount().toString().replace('.', ','));
                 //System.out.println("ytd: " + p.getYTDamount());
+            } else {
+                l.get(i).put("ytdamount", ",000");
             }
             // Remove this element from the hashmap since it is not needed in the final output.
             l.get(i).remove("uniqueIdentifier");
