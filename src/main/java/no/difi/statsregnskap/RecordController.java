@@ -36,12 +36,12 @@ public class RecordController {
         return formatRecords(l);
     }
 
-    // Parse and return.
+    // Parse and return records.
     private List<HashMap<String, String>> formatRecords(List<HashMap<String, String>> l) {
         BigDecimal ytd = new BigDecimal("0.0"); // Year To Date
         // <Unique identifier, Period (month), Pair<amount (numeric(19,3))>>, accumulate YTD
         Table<String, Integer, Pair> tAmount = TreeBasedTable.create();
-        // Add records to guava sorted table.
+        // Add records from query to guava sorted table.
         for (int i = 0; i < l.size(); i++) {
             if (l.get(i).get("uniqueIdentifier") != null) {
                 // Uniquely identifies record
@@ -59,7 +59,7 @@ public class RecordController {
             //System.out.println("guava rowKeySet(): " + item);
             ytd = BigDecimal.ZERO;
             for (Entry<Integer, Pair> period : tAmount.row(item).entrySet()) {
-                ytd = ytd.add(period.getValue().getAmount());
+                ytd = ytd.add(period.getValue().getPeriodamount());
                 period.getValue().setYTDamount(ytd);
                 //System.out.println("period: " + period.getKey() + ", amount: " + period.getValue().getAmount() + ", YTD: " + period.getValue().getYTDamount());
             }
@@ -73,9 +73,11 @@ public class RecordController {
                 Integer period = Integer.parseInt(l.get(i).get("period")); // Period, as month like 9
                 Pair p = tAmount.get(unique, period);
                 l.get(i).put("ytdamount", p.getYTDamount().toString().replace('.', ','));
+                l.get(i).put("periodamount", p.getPeriodamount().toString().replace('.', ','));
                 //System.out.println("ytd: " + p.getYTDamount());
             } else {
                 l.get(i).put("ytdamount", ",000");
+                l.get(i).put("periodamount", l.get(i).get("periodamount").replace('.', ','));
             }
             // Remove this element from the hashmap since it is not needed in the final output.
             l.get(i).remove("uniqueIdentifier");

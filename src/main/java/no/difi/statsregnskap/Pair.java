@@ -4,12 +4,12 @@ import java.math.BigDecimal;
 
 public class Pair {
     
-    private BigDecimal amount;
+    private BigDecimal periodamount;
     private BigDecimal YTDAmount;
 
 
-    public Pair(BigDecimal amount) {
-        this.amount = amount;
+    public Pair(BigDecimal periodamount) {
+        this.periodamount = periodamount;
     }
 
     public BigDecimal getYTDamount() {
@@ -19,8 +19,8 @@ public class Pair {
     public void setYTDamount(BigDecimal YTDamount) {
         this.YTDAmount = YTDamount;
     }
-    public BigDecimal getAmount() {
-        return amount;
+    public BigDecimal getPeriodamount() {
+        return periodamount;
     }
 
 }

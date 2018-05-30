@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "statsregnskap")
+@Table(name = "statsregnskap_grouped")
 public class Record {
     
 	// Eks. 16
@@ -62,7 +62,12 @@ public class Record {
     // numeric(19, 3)
     @Column(name = "\"Beløp\"", unique = false)
     private String periodamount;
-    
+
+	// Eks. 2, number of same record occurring as a duplicate
+	// BigInt
+	@Column(name = "\"Occurrence\"", unique = false)
+	private String occurrence;
+
     private String uniqueIdentifier;
     
     public Record() {
@@ -79,11 +84,13 @@ public class Record {
         this.year = "-1";
         this.period = "-1";
     	this.periodamount = ".000";
+    	this.occurrence = "-1";
     	this.uniqueIdentifier = "ABC";
     }
     
     public Record(String fagdep, String kap, String statskonto, String post, String artskonto, String orgnr,
-    		String regnskapsfører, String dep, String perioddate, String periodid, String year, String period, String periodamount, String uniqueIdentifier) {
+    		String regnskapsfører, String dep, String perioddate, String periodid, String year, String period,
+            String periodamount, String occurrence, String uniqueIdentifier) {
     	this.fagdep = fagdep;
     	this.kap = kap;
     	this.statskonto = statskonto;
@@ -97,6 +104,7 @@ public class Record {
         this.year = year;
         this.period = period;
     	this.periodamount = periodamount;
+    	this.occurrence = occurrence;
     	this.uniqueIdentifier = uniqueIdentifier;
     }
     
@@ -154,7 +162,11 @@ public class Record {
 	public String getPeriodamount() {
 		return periodamount;
 	}
-	
+
+	public String getOccurrence() {
+        return occurrence;
+    }
+
 	public String getUniqueIdentifier() {
 	    return uniqueIdentifier;
 	}
