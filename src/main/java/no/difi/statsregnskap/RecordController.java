@@ -1,6 +1,7 @@
 package no.difi.statsregnskap;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -34,6 +35,13 @@ public class RecordController {
         List<HashMap<String, String>> l = recordRepository.findByYear(year);
 
         return formatRecords(l);
+    }
+
+    @RequestMapping(value = "/csv/record/{year}", method = RequestMethod.GET, produces = "text/csv")
+    public List<HashMap<String, String>> recordByYearCSV(@PathVariable("year") String year) {
+        List<HashMap<String, String>> l = recordRepository.findByYear(year);
+
+        return CSVResponse.writeRecords(convertToRecords(formatRecords(l)));
     }
 
     // Parse and return records.
@@ -88,4 +96,13 @@ public class RecordController {
 
         return l;
     }
+
+    private List<Record> convertToRecords(List<HashMap<String, String>> l) {
+
+        ArrayList<Record> ar = new ArrayList<>();
+	    Record r = new Record();
+	    ar.add(r);
+	    return ar;
+    }
+
 }
